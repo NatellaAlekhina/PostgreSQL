@@ -1,0 +1,167 @@
+Основа базы - социальная сеть Драйв2.
+
+1. Проанализировать бизнес-логику приложения и создать структуру базы данных, 
+которая может использоваться для хранения данных этого приложения. 
+В базе данных должно быть минимум десять таблиц. Если таблиц получается более 
+двадцати то рекомендуется ограничиться частью функционала приложения и 
+не превышать это количество. В качестве отчета по этой части проекта необходимо 
+приложить команды создания таблиц.
+
+--Заходим через пользователя postgres для создания пользователей и базы
+
+user@userserver:~$ sudo -u postgres psql
+
+-- Создаем пользователя с паролем
+
+postgres=# CREATE USER gb_user WITH PASSWORD '1234';
+
+--  Создаем базу drive2 и даем пользователю права на нее
+
+postgres=# CREATE DATABASE drive2;
+postgres=# GRANT ALL PRIVILEGES ON DATABASE drive2 to gb_user;
+
+-- Создаем таблицы в базе
+
+-- Таблица пользователей (владельцев автомобилей) 1
+
+CREATE TABLE users (
+	id SERIAL PRIMARY KEY,
+	login VARCHAR(50) NOT NULL UNIQUE,
+	first_name VARCHAR(50) NOT NULL,
+	last_name VARCHAR(50) NOT NULL,
+	email VARCHAR(120) NOT NULL UNIQUE,
+	phone VARCHAR(15) UNIQUE,
+	profile_photo_id INT,
+	created_at TIMESTAMP
+);
+
+-- Таблица сообщений (внутренняя переписка между пользователями) 2
+
+CREATE TABLE messages (
+	id SERIAL PRIMARY KEY,
+	from_user_id INT NOT NULL,
+	to_user_id INT NOT NULL,
+	body TEXT,
+	is_delivered BOOLEAN,
+	created_at TIMESTAMP
+);
+
+-- Таблица автомобилей 3
+
+CREATE TABLE cars (
+	id SERIAL PRIMARY KEY,
+	car_brand VARCHAR(50) NOT NULL,
+	car_model VARCHAR(50) NOT NULL,
+	year_of_manufacture_of_the_car INT NOT NULL,
+	vin INT NOT NULL UNIQUE,
+	description VARCHAR(250) NOT NULL
+);
+
+-- Таблица периодов владения владения авто 4
+
+CREATE TABLE cars_owners (
+	id SERIAL PRIMARY KEY,
+	car_id INT NOT NULL,
+	owner_id INT NOT NULL,
+	owner_status INT NOT NULL,
+	owner_start_at TIMESTAMP NOT NULL,
+	owner_finish_at TIMESTAMP
+);
+
+-- Таблица статусов владения авто 5
+
+CREATE TABLE cars_owners_statuses (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(30) UNIQUE
+);
+
+-- Таблица записей в журнале авто 6
+
+CREATE TABLE cars_diares (
+	id SERIAL UNIQUE,
+	car_id INT NOT NULL,
+	user_id INT NOT NULL,
+	body TEXT,
+	photo_diary INT,
+	video_diary INT,
+	created_at TIMESTAMP,
+	PRIMARY KEY (car_id, user_id)
+);
+
+-- Таблица записей в личных дневниках пользователей 7
+
+CREATE TABLE users_diares (
+	id SERIAL PRIMARY KEY,
+	user_id INT NOT NULL,
+	body TEXT,
+	photo INT,
+	video INT,
+	created_at TIMESTAMP
+);
+
+
+-- Таблица подписок на авто, на пользователей и на дневники 8
+
+CREATE TABLE subscriptions (
+	id SERIAL PRIMARY KEY,
+	subscription_by_user_id INT NOT NULL,
+	subscription_to_kind_of_object INT NOT NULL,
+	object_id INT NOT NULL,
+	status_id INT NOT NULL,
+	subscription_at TIMESTAMP
+);
+
+-- Таблица вариантов подписок (объекты подписки) 9
+
+CREATE TABLE kind_of_objects (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(30) UNIQUE
+);
+
+
+-- Таблица фотографий в дневниках авто 10
+
+CREATE TABLE photo_car_diary (
+	id SERIAL PRIMARY KEY,
+	url VARCHAR(250) NOT NULL UNIQUE,
+	car_diary_id INT NOT NULL,
+	description VARCHAR(250) NOT NULL,
+	uploaded_at TIMESTAMP NOT NULL,
+	size INT NOT NULL
+);
+
+-- Таблица видео в дневниках авто 11
+
+CREATE TABLE video_car_diary (
+	id SERIAL PRIMARY KEY,
+	url VARCHAR(250) NOT NULL UNIQUE,
+	car_diary_id INT NOT NULL,
+	description VARCHAR(250) NOT NULL,
+	uploaded_at TIMESTAMP NOT NULL,
+	size INT NOT NULL
+);
+
+-- Таблица фотографий в дневниках пользователей 12
+
+CREATE TABLE photo_user_diary (
+	id SERIAL PRIMARY KEY,
+	url VARCHAR(250) NOT NULL UNIQUE,
+	user_id INT NOT NULL,
+	description VARCHAR(250) NOT NULL,
+	uploaded_at TIMESTAMP NOT NULL,
+	size INT NOT NULL
+);
+
+-- Таблица видео в дневниках пользователей 13
+
+CREATE TABLE video_user_diary (
+	id SERIAL PRIMARY KEY,
+	url VARCHAR(250) NOT NULL UNIQUE,
+	user_id INT NOT NULL,
+	description VARCHAR(250) NOT NULL,
+	uploaded_at TIMESTAMP NOT NULL,
+	size INT NOT NULL
+);
+
+
+
