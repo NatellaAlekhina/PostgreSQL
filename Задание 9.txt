@@ -1,0 +1,31 @@
+9. Создать триггер.
+
+Создадим триггер на обновление для таблицы пользователей, 
+который не разрешает внести в столбец profile_photo_id идентификатор фотографии, 
+если данный пользователь не является ее владельцем. 
+
+CREATE OR REPLACE FUNCTION update_profile_photo_id_trigger()
+RETURNS TRIGGER AS
+$$
+DECLARE owner_id INTEGER;
+BEGIN
+    owner_id := (SELECT user_id FROM photo_user_diary WHERE id = NEW.profile_photo_id);
+    IF NEW.profile_photo_id IS NOT NULL AND NEW.user_id != owner_id THEN
+        RAISE EXCEPTION 'User with ID: % has no photo from ID: %', NEW.user_id, NEW.profile_photo_id;
+    END IF;
+    RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS check_profile_photo_id_on_update ON users;
+CREATE TRIGGER check_profile_photo_id_on_update BEFORE UPDATE ON users
+    FOR EACH ROW
+EXECUTE FUNCTION update_profile_photo_id_trigger();
+
+UPDATE users SET profile_photo_id = 2 WHERE users.id = 1;
+
+ERROR:  record "new" has no field "user_id"
+CONTEXT:  SQL expression "NEW.profile_photo_id IS NOT NULL AND NEW.user_id != owner_id"
+PL/pgSQL function update_profile_photo_id_trigger() line 5 at IF
+SQL state: 42703
