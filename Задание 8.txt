@@ -1,0 +1,25 @@
+8. Создать пользовательскую функцию.
+
+Функция, которая по идентификатору пользователя ищет id его автомобиля
+
+CREATE FUNCTION car_of_user_id(user_id INTEGER)
+RETURNS INTEGER AS
+$$
+    SELECT 
+	cars.id
+FROM cars_owners
+  JOIN cars
+    ON cars.id=cars_owners.car_id
+  LEFT JOIN users
+    ON users.id=cars_owners.owner_id
+  LEFT JOIN cars_owners_statuses
+  	ON cars_owners_statuses.id = cars_owners.owner_status
+WHERE cars_owners.owner_id = user_id;
+
+$$
+LANGUAGE SQL;
+
+SELECT car_of_user_id(10);
+
+"car_of_user_id"
+10
