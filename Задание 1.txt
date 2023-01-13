@@ -95,7 +95,6 @@ CREATE TABLE users_diares (
 	user_id INT NOT NULL,
 	body TEXT,
 	photo INT,
-	video INT,
 	created_at TIMESTAMP
 );
 
