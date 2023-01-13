@@ -1,0 +1,89 @@
+5. Создать два сложных (многотабличных) запроса с использованием подзапросов.
+
+1. Найдем имена пользователей - владельцев машин с заполненными дневниками автомобилй
+
+SELECT  
+cars_diares.car_id,
+(SELECT cars.car_brand AS car_model FROM cars WHERE cars.id=cars_diares.car_id),
+(SELECT cars.car_model AS car_model FROM cars WHERE cars.id=cars_diares.car_id),
+(SELECT users.first_name AS user_first_name FROM users WHERE users.id=cars_diares.user_id),
+(SELECT users.last_name AS user_last_name FROM users WHERE users.id=cars_diares.user_id),
+(SELECT users.id AS user_id_from_users FROM users WHERE users.id=cars_diares.user_id),
+cars_diares.user_id
+FROM cars_diares;
+
+
+
+
+"car_id"	"car_model"	"car_model-2"	"user_first_name"	"user_last_name"	"user_id_from_users"	"user_id"
+1	"HONDA"	"CR-V"	"Iona"	"Murphy"	1	1
+2	"HONDA"	"CR-V"	"Latifah"	"Pacheco"	2	2
+3	"HONDA"	"Accord"	"Danielle"	"Clarke"	3	3
+4	"HONDA"	"Accord"	"Kieran"	"York"	4	4
+5	"HONDA"	"Accord"	"Myles"	"Rogers"	5	5
+6	"HONDA"	"Accord"	"Gary"	"Barron"	6	6
+7	"HONDA"	"Civic"	"Sylvia"	"Hays"	7	7
+8	"HONDA"	"Civic"	"Jillian"	"Moore"	8	8
+9	"HONDA"	"Civic"	"Madeline"	"Barry"	9	9
+10	"HONDA"	"Civic"	"Meredith"	"Douglas"	10	10
+11	"BMW"	"3"	"Adara"	"Daniel"	11	11
+12	"BMW"	"3"	"Ivor"	"Boone"	12	12
+13	"BMW"	"3"	"Trevor"	"Moore"	13	13
+14	"BMW"	"5"	"Kylan"	"Mcdaniel"	14	14
+15	"BMW"	"5"	"Jade"	"Goff"	15	15
+16	"BMW"	"5"	"Tamara"	"Sullivan"	16	16
+17	"BMW"	"7"	"Erasmus"	"Vang"	17	17
+18	"BMW"	"X6"	"Xena"	"Price"	18	18
+19	"BMW"	"X3"	"Caryn"	"Harding"	19	19
+20	"BMW"	"X5"	"Kirestin"	"Hudson"	20	20
+21	"Mercedes-Benz"	"S"	"Dean"	"Bowman"	21	21
+22	"Mercedes-Benz"	"CLS"	"Barrett"	"Cline"	22	22
+23	"Mercedes-Benz"	"CLA"	"Richard"	"Kerr"	23	23
+24	"Mercedes-Benz"	"E"	"Galena"	"Nixon"	24	24
+25	"Mercedes-Benz"	"C"	"Kathleen"	"Franks"	25	25
+26	"Mercedes-Benz"	"GLC"	"Chiquita"	"Hodge"	26	26
+27	"Mercedes-Benz"	"CLA"	"Channing"	"Pace"	27	27
+28	"Mercedes-Benz"	"GLA"	"Cailin"	"Randolph"	28	28
+29	"Mercedes-Benz"	"S"	"Raven"	"Little"	29	29
+30	"Mercedes-Benz"	"E"	"Amber"	"Watkins"	30	30
+31	"Nissan"	"Murano"	"Wallace"	"Wolfe"	31	31
+32	"Nissan"	"Murano"	"Kadeem"	"Dickson"	32	32
+33	"Nissan"	"Murano"	"Sawyer"	"Stein"	33	33
+34	"Nissan"	"Murano"	"Tamekah"	"Osborne"	34	34
+35	"Nissan"	"Qashqai"	"Beverly"	"Dalton"	35	35
+36	"Nissan"	"Qashqai"	"Hannah"	"Horne"	36	36
+37	"Nissan"	"Qashqai"	"Quamar"	"Franklin"	37	37
+38	"Nissan"	"X-Trail"	"Reed"	"Stevenson"	38	38
+39	"Nissan"	"X-Trail"	"Finn"	"Logan"	39	39
+40	"Nissan"	"X-Trail"	"Kasper"	"Rosales"	40	40
+41	"Toyota"	"Camry"	"Tanya"	"Rivers"	41	41
+42	"Toyota"	"Camry"	"Dara"	"Delacruz"	42	42
+43	"Toyota"	"Camry"	"Zena"	"Grimes"	43	43
+44	"Toyota"	"Camry"	"Plato"	"Stevenson"	44	44
+45	"Toyota"	"Corolla"	"Ria"	"Cunningham"	45	45
+46	"Toyota"	"Corolla"	"Isaiah"	"Lyons"	46	46
+47	"Toyota"	"Corolla"	"Olga"	"Farley"	47	47
+48	"Toyota"	"Corolla"	"Gabriel"	"Haynes"	48	48
+49	"Toyota"	"Corolla"	"Tanek"	"Hale"	49	49
+50	"Toyota"	"Land Cruiser"	"Rhea"	"Bowman"	50	50
+
+
+
+2. Найдем трех владельцев авто с их марками и моделями, у которых самые большие фотографии в дневниках авто.
+
+
+SELECT  
+cars_diares.car_id,
+(SELECT cars.car_brand AS car_model FROM cars WHERE cars.id=cars_diares.car_id),
+(SELECT cars.car_model AS car_model FROM cars WHERE cars.id=cars_diares.car_id),
+(SELECT users.first_name AS user_first_name FROM users WHERE users.id=cars_diares.user_id),
+(SELECT users.last_name AS user_last_name FROM users WHERE users.id=cars_diares.user_id),
+(SELECT size FROM photo_car_diary  WHERE photo_car_diary.id = cars_diares.photo_diary) AS photo_size,
+cars_diares.user_id
+FROM cars_diares ORDER BY photo_size DESC LIMIT 3;
+
+
+"car_id"	"car_model"	"car_model-2"	"user_first_name"	"user_last_name"	"photo_size"	"user_id"
+20	"BMW"	"X5"	"Kirestin"	"Hudson"	98	20
+5	"HONDA"	"Accord"	"Myles"	"Rogers"	98	5
+41	"Toyota"	"Camry"	"Tanya"	"Rivers"	96	41
