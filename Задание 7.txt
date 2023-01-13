@@ -1,0 +1,136 @@
+7. Создать два представления, в основе которых лежат сложные запросы.
+
+
+1. Выведем данные начала владения владельце, у которых есть дневники машин и которые сейчас ими владеют
+
+CREATE VIEW name_users_car_diary_view AS	
+SELECT  
+	cars.car_brand AS car_brand,
+	cars.car_model AS car_model,
+	cars.vin AS car_vin,
+	users.first_name AS user_first_name,
+	users.last_name AS user_last_name,
+	cars_owners.owner_start_at AS owner_start_at,
+	cars_owners.owner_finish_at AS owner_finish_at
+FROM cars_diares
+  JOIN cars
+    ON cars.id=cars_diares.car_id
+  LEFT JOIN users
+    ON users.id=cars_diares.user_id
+  LEFT JOIN cars_owners
+    ON cars_owners.car_id = cars_diares.car_id
+WHERE owner_finish_at is null;
+
+SELECT * FROM name_users_car_diary_view;
+
+
+"car_brand"	"car_model"	"car_vin"	"user_first_name"	"user_last_name"	"owner_start_at"	"owner_finish_at"
+"HONDA"	"CR-V"	"1EE9A6AF-B036-66A3-9106-30041F9FCFD0"	"Iona"	"Murphy"	"2019-09-09 23:31:40"	
+"HONDA"	"CR-V"	"BB81DDF7-59BC-68C5-CB87-A6AF692AE998"	"Latifah"	"Pacheco"	"2010-08-05 04:58:30"	
+"HONDA"	"Accord"	"26D1AF12-6BEA-92F7-AE54-3FDE567BDBA9"	"Danielle"	"Clarke"	"2007-03-03 07:18:27"	
+"HONDA"	"Accord"	"E83F8B61-6B9A-C8DC-E567-791D8899E3EC"	"Kieran"	"York"	"2017-02-16 12:19:08"	
+"HONDA"	"Accord"	"A7233B26-1C81-A110-DA64-6E30A7948DDE"	"Myles"	"Rogers"	"2007-11-06 01:04:58"	
+"HONDA"	"Accord"	"1E8D3161-647D-6A3C-1144-204DA64AB9EE"	"Gary"	"Barron"	"2006-07-14 05:34:12"	
+"HONDA"	"Civic"	"7E6ADBC7-3E15-ABAE-6CB5-8685A510E337"	"Sylvia"	"Hays"	"2019-01-23 22:15:20"	
+"HONDA"	"Civic"	"39809575-7B11-28D4-E57F-2F42D324CD19"	"Jillian"	"Moore"	"2014-10-01 21:18:29"	
+"HONDA"	"Civic"	"195E7701-6F5D-FAA8-91E4-8DF837739498"	"Madeline"	"Barry"	"2021-12-22 03:01:57"	
+"HONDA"	"Civic"	"1008B27F-BA11-9632-839D-CBEFCC177E22"	"Meredith"	"Douglas"	"2008-12-27 06:25:26"	
+"BMW"	"3"	"62765885-3448-CC31-6FDD-88C3C51E12A5"	"Adara"	"Daniel"	"2012-09-12 09:09:47"	
+"BMW"	"3"	"7FC6748D-6E5E-599B-123F-B9D555654D83"	"Ivor"	"Boone"	"2014-02-24 13:45:32"	
+"BMW"	"3"	"4BF38304-6DB6-DA3A-6AE3-B099FAD615AD"	"Trevor"	"Moore"	"2021-07-11 10:17:27"	
+"BMW"	"5"	"9486B999-2134-573C-DEED-796DAD50CB43"	"Kylan"	"Mcdaniel"	"2017-04-16 03:43:39"	
+"BMW"	"5"	"C014ECAB-1C1B-3584-7DC4-83BD3919622A"	"Jade"	"Goff"	"2012-02-03 14:22:04"	
+"BMW"	"5"	"687BEDB6-ED56-8A63-5611-18F10A72D3D3"	"Tamara"	"Sullivan"	"2006-08-12 21:24:53"	
+"BMW"	"7"	"DF66223D-46B6-D197-4616-B3378E348D06"	"Erasmus"	"Vang"	"2007-12-05 11:42:28"	
+"BMW"	"X6"	"13CC54DE-0BB3-22DE-33E6-CECB456E21E9"	"Xena"	"Price"	"2006-11-27 15:35:16"	
+"BMW"	"X3"	"A14DFAB7-F4DE-DD9A-3A48-875519F720A4"	"Caryn"	"Harding"	"2010-10-04 15:03:41"	
+"BMW"	"X5"	"4481991A-B6E8-FC87-ECA4-0E138B63C57C"	"Kirestin"	"Hudson"	"2019-07-04 09:32:29"	
+"Mercedes-Benz"	"S"	"231382B6-ADDC-F274-5216-5C986A9FB010"	"Dean"	"Bowman"	"2018-04-08 04:17:56"	
+"Mercedes-Benz"	"CLS"	"ED95025B-43DD-2C5C-D56D-CC43375B4C91"	"Barrett"	"Cline"	"2013-01-06 19:33:59"	
+"Mercedes-Benz"	"CLA"	"C87717A1-735D-A14A-1F3D-2D31AEE85D14"	"Richard"	"Kerr"	"2006-11-21 14:13:48"	
+"Mercedes-Benz"	"E"	"34B2E901-6AC8-60DB-B1C9-5E8E2490F171"	"Galena"	"Nixon"	"2013-05-08 16:04:50"	
+"Mercedes-Benz"	"C"	"8DA3A793-18AB-ECAA-5C27-90E5D9F9DF2A"	"Kathleen"	"Franks"	"2010-02-25 13:53:26"	
+"Mercedes-Benz"	"GLC"	"5AA7FC46-CD36-C3C0-D7C5-8149B98859CE"	"Chiquita"	"Hodge"	"2016-11-30 17:48:32"	
+"Mercedes-Benz"	"CLA"	"177C502A-E91F-3B18-D478-B6964EB4C52D"	"Channing"	"Pace"	"2017-06-06 17:42:17"	
+"Mercedes-Benz"	"GLA"	"1057E537-57ED-B111-CB13-A838AD6632AF"	"Cailin"	"Randolph"	"2017-12-24 11:49:51"	
+"Mercedes-Benz"	"S"	"2C9B621B-1C8A-DDD7-EE28-74975267029E"	"Raven"	"Little"	"2022-08-12 07:30:14"	
+"Mercedes-Benz"	"E"	"7537342B-7ED5-A822-F7FD-3A25294AC888"	"Amber"	"Watkins"	"2013-03-16 19:19:37"	
+"Nissan"	"Murano"	"E0424C48-F977-C588-D52E-EC44D68C3B43"	"Wallace"	"Wolfe"	"2019-02-02 09:25:45"	
+"Nissan"	"Murano"	"93D258D8-ED65-4680-B454-797A1C306F27"	"Kadeem"	"Dickson"	"2006-10-14 09:15:57"	
+"Nissan"	"Murano"	"B4AB6C44-E729-76FB-B81E-A1B3B457D4F6"	"Sawyer"	"Stein"	"2021-01-09 15:40:34"	
+"Nissan"	"Murano"	"8F73413D-FDA1-30A1-74AE-A735E34BB667"	"Tamekah"	"Osborne"	"2017-03-14 19:24:15"	
+"Nissan"	"Qashqai"	"B1667D14-99DB-2E75-1453-42AB8CD64F2E"	"Beverly"	"Dalton"	"2015-10-28 16:13:03"	
+"Nissan"	"Qashqai"	"901E6C11-C09C-D12E-2110-B3A814784E04"	"Hannah"	"Horne"	"2015-01-30 18:44:44"	
+"Nissan"	"Qashqai"	"17C665E3-6605-AB85-8AFA-D18BD32ED92F"	"Quamar"	"Franklin"	"2013-10-21 14:07:09"	
+"Nissan"	"X-Trail"	"D2321357-2EFA-A399-4C0C-2B0BD72B71A5"	"Reed"	"Stevenson"	"2008-05-03 12:59:47"	
+"Nissan"	"X-Trail"	"733913EE-5FED-CFAB-B972-2726329FEDC0"	"Finn"	"Logan"	"2013-02-20 14:59:42"	
+"Nissan"	"X-Trail"	"4AD98F37-D105-725D-EC8A-5E496E189824"	"Kasper"	"Rosales"	"2015-12-14 02:25:32"	
+"Toyota"	"Camry"	"6C870C47-38D2-4A59-2762-AFD692B9177A"	"Tanya"	"Rivers"	"2008-02-05 16:44:35"	
+"Toyota"	"Camry"	"0EAB716B-1845-9E54-D5B9-E95B51CF7EB8"	"Dara"	"Delacruz"	"2014-09-03 08:36:23"	
+"Toyota"	"Camry"	"83537BEC-2237-91B3-9A4E-7BD496698A8D"	"Zena"	"Grimes"	"2017-07-22 14:00:30"	
+"Toyota"	"Camry"	"C9C7379B-2E13-44BD-82F9-B4392DE6516C"	"Plato"	"Stevenson"	"2007-08-22 05:01:45"	
+"Toyota"	"Corolla"	"202FAF7C-EF7F-81A8-DCB4-C4654AA2A5E0"	"Ria"	"Cunningham"	"2016-10-25 02:39:42"	
+"Toyota"	"Corolla"	"97997B27-EA49-C510-3141-84D8DBB23AD1"	"Isaiah"	"Lyons"	"2011-05-31 22:09:58"	
+"Toyota"	"Corolla"	"1B8BDBE8-C99F-49E5-1C95-53B3B116EF64"	"Olga"	"Farley"	"2014-07-19 09:01:50"	
+"Toyota"	"Corolla"	"69681755-9045-8277-761A-B5BF5DFA965B"	"Gabriel"	"Haynes"	"2009-12-28 13:10:42"	
+"Toyota"	"Corolla"	"0AA2A4F5-1CC3-1CA5-17EE-1C535940E6BB"	"Tanek"	"Hale"	"2019-02-15 17:08:53"	
+"Toyota"	"Land Cruiser"	"DA08C2E6-CAE6-13AC-6295-B740CC46D2C0"	"Rhea"	"Bowman"	"2013-07-29 05:13:13"	
+
+
+
+2. Создадим представление бывших владельцев со старыми дневниками
+
+CREATE VIEW ex_owners_diares_view AS	
+SELECT  
+	cars.car_brand AS car_brand,
+	cars.car_model AS car_model,
+	cars.vin AS car_vin,
+	users.first_name AS user_first_name,
+	users.last_name AS user_last_name,
+	cars_owners.owner_start_at AS owner_start_at,
+	cars_owners.owner_finish_at AS owner_finish_at,
+	cars_owners_statuses.name AS owner_status
+FROM cars_diares
+  JOIN cars
+    ON cars.id=cars_diares.car_id
+  LEFT JOIN users
+    ON users.id=cars_diares.user_id
+  LEFT JOIN cars_owners
+    ON cars_owners.car_id = cars_diares.car_id
+  LEFT JOIN cars_owners_statuses
+  	ON cars_owners_statuses.id = cars_owners.owner_status
+WHERE owner_finish_at is not null;
+
+SELECT * FROM ex_owners_diares_view;
+
+
+
+"car_brand"	"car_model"	"car_vin"	"user_first_name"	"user_last_name"	"owner_start_at"	"owner_finish_at"	"owner_status"
+"HONDA"	"CR-V"	"BB81DDF7-59BC-68C5-CB87-A6AF692AE998"	"Latifah"	"Pacheco"	"2013-05-29 19:20:58"	"2022-10-29 03:54:06"	"ex_owner"
+"HONDA"	"Accord"	"E83F8B61-6B9A-C8DC-E567-791D8899E3EC"	"Kieran"	"York"	"2007-03-18 04:05:57"	"2021-06-03 16:15:34"	"ex_owner"
+"HONDA"	"Accord"	"1E8D3161-647D-6A3C-1144-204DA64AB9EE"	"Gary"	"Barron"	"2012-08-23 17:54:24"	"2021-04-12 13:58:21"	"ex_owner"
+"HONDA"	"Civic"	"7E6ADBC7-3E15-ABAE-6CB5-8685A510E337"	"Sylvia"	"Hays"	"2010-09-09 23:36:42"	"2021-06-27 02:19:14"	"ex_owner"
+"HONDA"	"Civic"	"39809575-7B11-28D4-E57F-2F42D324CD19"	"Jillian"	"Moore"	"2009-12-24 16:50:27"	"2022-08-27 18:33:27"	"ex_owner"
+"HONDA"	"Civic"	"195E7701-6F5D-FAA8-91E4-8DF837739498"	"Madeline"	"Barry"	"2018-03-19 07:54:41"	"2021-07-09 16:50:43"	"ex_owner"
+"BMW"	"3"	"62765885-3448-CC31-6FDD-88C3C51E12A5"	"Adara"	"Daniel"	"2017-08-19 09:15:35"	"2021-01-28 12:45:17"	"ex_owner"
+"BMW"	"3"	"62765885-3448-CC31-6FDD-88C3C51E12A5"	"Adara"	"Daniel"	"2020-11-26 14:25:31"	"2022-05-04 14:14:34"	"ex_owner"
+"BMW"	"3"	"4BF38304-6DB6-DA3A-6AE3-B099FAD615AD"	"Trevor"	"Moore"	"2012-06-13 08:57:34"	"2022-11-20 18:28:46"	"ex_owner"
+"BMW"	"5"	"C014ECAB-1C1B-3584-7DC4-83BD3919622A"	"Jade"	"Goff"	"2004-12-05 22:35:05"	"2022-12-03 17:42:34"	"ex_owner"
+"BMW"	"5"	"687BEDB6-ED56-8A63-5611-18F10A72D3D3"	"Tamara"	"Sullivan"	"2020-07-18 04:23:09"	"2021-11-25 13:14:33"	"ex_owner"
+"BMW"	"5"	"687BEDB6-ED56-8A63-5611-18F10A72D3D3"	"Tamara"	"Sullivan"	"2018-10-02 23:25:14"	"2022-10-28 00:21:56"	"ex_owner"
+"BMW"	"7"	"DF66223D-46B6-D197-4616-B3378E348D06"	"Erasmus"	"Vang"	"2006-08-26 15:31:08"	"2021-12-21 23:59:48"	"ex_owner"
+"BMW"	"7"	"DF66223D-46B6-D197-4616-B3378E348D06"	"Erasmus"	"Vang"	"2007-09-15 05:33:16"	"2021-09-03 22:08:23"	"ex_owner"
+"BMW"	"X6"	"13CC54DE-0BB3-22DE-33E6-CECB456E21E9"	"Xena"	"Price"	"2013-12-14 01:09:17"	"2021-04-06 21:16:24"	"ex_owner"
+"BMW"	"X3"	"A14DFAB7-F4DE-DD9A-3A48-875519F720A4"	"Caryn"	"Harding"	"2008-07-31 08:31:30"	"2021-08-27 11:01:19"	"ex_owner"
+"Mercedes-Benz"	"S"	"231382B6-ADDC-F274-5216-5C986A9FB010"	"Dean"	"Bowman"	"2014-01-26 10:48:40"	"2022-09-29 18:45:41"	"ex_owner"
+"Mercedes-Benz"	"S"	"231382B6-ADDC-F274-5216-5C986A9FB010"	"Dean"	"Bowman"	"2007-05-15 15:01:10"	"2021-02-21 06:59:10"	"ex_owner"
+"Mercedes-Benz"	"E"	"34B2E901-6AC8-60DB-B1C9-5E8E2490F171"	"Galena"	"Nixon"	"2010-01-12 08:15:41"	"2021-04-13 21:48:32"	"ex_owner"
+"Mercedes-Benz"	"C"	"8DA3A793-18AB-ECAA-5C27-90E5D9F9DF2A"	"Kathleen"	"Franks"	"2019-02-15 11:12:13"	"2022-12-25 09:09:20"	"ex_owner"
+"Mercedes-Benz"	"GLA"	"1057E537-57ED-B111-CB13-A838AD6632AF"	"Cailin"	"Randolph"	"2008-09-09 17:50:56"	"2021-06-21 21:20:33"	"ex_owner"
+"Nissan"	"Murano"	"B4AB6C44-E729-76FB-B81E-A1B3B457D4F6"	"Sawyer"	"Stein"	"2009-07-31 23:12:09"	"2021-10-10 21:29:53"	"ex_owner"
+"Nissan"	"X-Trail"	"D2321357-2EFA-A399-4C0C-2B0BD72B71A5"	"Reed"	"Stevenson"	"2014-01-16 22:22:13"	"2022-03-01 03:15:47"	"ex_owner"
+"Nissan"	"X-Trail"	"733913EE-5FED-CFAB-B972-2726329FEDC0"	"Finn"	"Logan"	"2015-07-27 15:16:05"	"2022-06-21 04:14:17"	"ex_owner"
+"Toyota"	"Camry"	"6C870C47-38D2-4A59-2762-AFD692B9177A"	"Tanya"	"Rivers"	"2018-09-07 08:50:40"	"2022-10-18 05:11:33"	"ex_owner"
+"Toyota"	"Camry"	"83537BEC-2237-91B3-9A4E-7BD496698A8D"	"Zena"	"Grimes"	"2007-04-24 04:15:45"	"2022-12-11 18:42:48"	"ex_owner"
+"Toyota"	"Corolla"	"0AA2A4F5-1CC3-1CA5-17EE-1C535940E6BB"	"Tanek"	"Hale"	"2008-01-21 17:10:18"	"2021-10-02 11:41:06"	"ex_owner"
+"Toyota"	"Land Cruiser"	"DA08C2E6-CAE6-13AC-6295-B740CC46D2C0"	"Rhea"	"Bowman"	"2018-03-10 23:26:12"	"2021-09-02 04:58:47"	"ex_owner"
