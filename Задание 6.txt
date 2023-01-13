@@ -1,0 +1,97 @@
+6. Создать два сложных запроса с использованием объединения JOIN и без использования подзапросов.
+
+1. Найдем имена пользователей - владельцев машин с заполненными дневниками автомобилей
+
+
+SELECT  
+	cars_diares.car_id,
+	cars.car_brand AS car_brand,
+	cars.car_model AS car_model,
+	users.first_name AS user_first_name,
+	users.last_name AS user_last_name
+FROM cars_diares
+  JOIN cars
+    ON cars.id=cars_diares.car_id
+  LEFT JOIN users
+    ON users.id=cars_diares.user_id;
+
+
+
+
+"car_id"	"car_brand"	"car_model"	"user_first_name"	"user_last_name"
+1	"HONDA"	"CR-V"	"Iona"	"Murphy"
+2	"HONDA"	"CR-V"	"Latifah"	"Pacheco"
+3	"HONDA"	"Accord"	"Danielle"	"Clarke"
+4	"HONDA"	"Accord"	"Kieran"	"York"
+5	"HONDA"	"Accord"	"Myles"	"Rogers"
+6	"HONDA"	"Accord"	"Gary"	"Barron"
+7	"HONDA"	"Civic"	"Sylvia"	"Hays"
+8	"HONDA"	"Civic"	"Jillian"	"Moore"
+9	"HONDA"	"Civic"	"Madeline"	"Barry"
+10	"HONDA"	"Civic"	"Meredith"	"Douglas"
+11	"BMW"	"3"	"Adara"	"Daniel"
+12	"BMW"	"3"	"Ivor"	"Boone"
+13	"BMW"	"3"	"Trevor"	"Moore"
+14	"BMW"	"5"	"Kylan"	"Mcdaniel"
+15	"BMW"	"5"	"Jade"	"Goff"
+16	"BMW"	"5"	"Tamara"	"Sullivan"
+17	"BMW"	"7"	"Erasmus"	"Vang"
+18	"BMW"	"X6"	"Xena"	"Price"
+19	"BMW"	"X3"	"Caryn"	"Harding"
+20	"BMW"	"X5"	"Kirestin"	"Hudson"
+21	"Mercedes-Benz"	"S"	"Dean"	"Bowman"
+22	"Mercedes-Benz"	"CLS"	"Barrett"	"Cline"
+23	"Mercedes-Benz"	"CLA"	"Richard"	"Kerr"
+24	"Mercedes-Benz"	"E"	"Galena"	"Nixon"
+25	"Mercedes-Benz"	"C"	"Kathleen"	"Franks"
+26	"Mercedes-Benz"	"GLC"	"Chiquita"	"Hodge"
+27	"Mercedes-Benz"	"CLA"	"Channing"	"Pace"
+28	"Mercedes-Benz"	"GLA"	"Cailin"	"Randolph"
+29	"Mercedes-Benz"	"S"	"Raven"	"Little"
+30	"Mercedes-Benz"	"E"	"Amber"	"Watkins"
+31	"Nissan"	"Murano"	"Wallace"	"Wolfe"
+32	"Nissan"	"Murano"	"Kadeem"	"Dickson"
+33	"Nissan"	"Murano"	"Sawyer"	"Stein"
+34	"Nissan"	"Murano"	"Tamekah"	"Osborne"
+35	"Nissan"	"Qashqai"	"Beverly"	"Dalton"
+36	"Nissan"	"Qashqai"	"Hannah"	"Horne"
+37	"Nissan"	"Qashqai"	"Quamar"	"Franklin"
+38	"Nissan"	"X-Trail"	"Reed"	"Stevenson"
+39	"Nissan"	"X-Trail"	"Finn"	"Logan"
+40	"Nissan"	"X-Trail"	"Kasper"	"Rosales"
+41	"Toyota"	"Camry"	"Tanya"	"Rivers"
+42	"Toyota"	"Camry"	"Dara"	"Delacruz"
+43	"Toyota"	"Camry"	"Zena"	"Grimes"
+44	"Toyota"	"Camry"	"Plato"	"Stevenson"
+45	"Toyota"	"Corolla"	"Ria"	"Cunningham"
+46	"Toyota"	"Corolla"	"Isaiah"	"Lyons"
+47	"Toyota"	"Corolla"	"Olga"	"Farley"
+48	"Toyota"	"Corolla"	"Gabriel"	"Haynes"
+49	"Toyota"	"Corolla"	"Tanek"	"Hale"
+50	"Toyota"	"Land Cruiser"	"Rhea"	"Bowman"
+
+2. Найдем трех владельцев авто с их марками и моделями, у которых самые большие фотографии в дневниках авто.
+
+SELECT  
+	cars_diares.car_id,
+	cars.car_brand AS car_brand,
+	cars.car_model AS car_model,
+	users.first_name AS user_first_name,
+	users.last_name AS user_last_name,
+	photo_car_diary.size AS photo_size
+FROM cars_diares
+  JOIN cars
+    ON cars.id=cars_diares.car_id
+  LEFT JOIN users
+    ON users.id=cars_diares.user_id
+  LEFT JOIN photo_car_diary
+    ON photo_car_diary.id = cars_diares.photo_diary
+ORDER BY photo_size DESC LIMIT 3;
+
+
+
+
+"car_id"	"car_brand"	"car_model"	"user_first_name"	"user_last_name"	"photo_size"
+20	"BMW"	"X5"	"Kirestin"	"Hudson"	98
+5	"HONDA"	"Accord"	"Myles"	"Rogers"	98
+41	"Toyota"	"Camry"	"Tanya"	"Rivers"	96
