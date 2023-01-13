@@ -4,7 +4,7 @@
 
 SELECT  
 cars_diares.car_id,
-(SELECT cars.car_brand AS car_model FROM cars WHERE cars.id=cars_diares.car_id),
+(SELECT cars.car_brand AS car_brand FROM cars WHERE cars.id=cars_diares.car_id),
 (SELECT cars.car_model AS car_model FROM cars WHERE cars.id=cars_diares.car_id),
 (SELECT users.first_name AS user_first_name FROM users WHERE users.id=cars_diares.user_id),
 (SELECT users.last_name AS user_last_name FROM users WHERE users.id=cars_diares.user_id),
@@ -15,7 +15,7 @@ FROM cars_diares;
 
 
 
-"car_id"	"car_model"	"car_model-2"	"user_first_name"	"user_last_name"	"user_id_from_users"	"user_id"
+"car_id"	"car_model"	"car_brand"	"user_first_name"	"user_last_name"	"user_id_from_users"	"user_id"
 1	"HONDA"	"CR-V"	"Iona"	"Murphy"	1	1
 2	"HONDA"	"CR-V"	"Latifah"	"Pacheco"	2	2
 3	"HONDA"	"Accord"	"Danielle"	"Clarke"	3	3
