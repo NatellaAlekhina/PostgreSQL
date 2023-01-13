@@ -1,0 +1,88 @@
+3. Создать внешние ключи, если они не были созданы на шаге 1 в командах создания таблиц. 
+В качестве отчета приложить команды создания внешних ключей. 
+
+ALTER TABLE users
+	ADD CONSTRAINT users_profile_photo_id_fk
+	FOREIGN KEY (profile_photo_id)
+	REFERENCES photo_user_diary (id);
+
+ALTER TABLE messages
+	ADD CONSTRAINT messages_from_user_id_fk
+	FOREIGN KEY (from_user_id)
+	REFERENCES users (id);
+
+ALTER TABLE messages
+	ADD CONSTRAINT messages_to_user_id_fk
+	FOREIGN KEY (to_user_id)
+	REFERENCES users (id)
+	ON DELETE CASCADE;
+
+ALTER TABLE cars_owners
+	ADD CONSTRAINT cars_owners_car_id_fk
+	FOREIGN KEY (car_id)
+	REFERENCES cars (id);
+
+ALTER TABLE cars_owners
+	ADD CONSTRAINT cars_owners_owner_id_fk
+	FOREIGN KEY (owner_id)
+	REFERENCES users (id);
+
+ALTER TABLE cars_owners
+	ADD CONSTRAINT cars_owners_owner_status_fk
+	FOREIGN KEY (owner_status)
+	REFERENCES cars_owners_statuses (id);
+
+ALTER TABLE cars_diares
+	ADD CONSTRAINT cars_diares_car_id_fk
+	FOREIGN KEY (car_id)
+	REFERENCES cars (id);
+
+ALTER TABLE cars_diares
+	ADD CONSTRAINT cars_diares_user_id_fk
+	FOREIGN KEY (user_id)
+	REFERENCES users (id);
+
+ALTER TABLE cars_diares
+	ADD CONSTRAINT cars_diares_photo_diary_fk
+	FOREIGN KEY (photo_diary)
+	REFERENCES photo_car_diary (id);
+
+ALTER TABLE cars_diares
+	ADD CONSTRAINT cars_diares_video_diary_fk
+	FOREIGN KEY (video_diary)
+	REFERENCES video_car_diary (id);
+
+ALTER TABLE users_diares
+	ADD CONSTRAINT users_diares_user_id_fk
+	FOREIGN KEY (user_id)
+	REFERENCES users (id);
+
+ALTER TABLE users_diares
+	ADD CONSTRAINT users_diares_photo_fk
+	FOREIGN KEY (photo)
+	REFERENCES photo_user_diary (id);
+
+ALTER TABLE subscriptions
+	ADD CONSTRAINT subscriptions_subscription_by_user_id_fk
+	FOREIGN KEY (subscription_by_user_id)
+	REFERENCES users (id);
+
+ALTER TABLE subscriptions
+	ADD CONSTRAINT subscriptions_subscription_to_kind_of_object_fk
+	FOREIGN KEY (subscription_to_kind_of_object)
+	REFERENCES kind_of_objects (id);
+	
+ALTER TABLE photo_car_diary
+	ADD CONSTRAINT photo_car_diary_car_diary_id_fk
+	FOREIGN KEY (car_diary_id)
+	REFERENCES cars_diares (id);
+	
+ALTER TABLE video_car_diary
+	ADD CONSTRAINT video_car_diary_car_diary_id_fk
+	FOREIGN KEY (car_diary_id)
+	REFERENCES cars_diares (id);
+
+ALTER TABLE photo_user_diary
+	ADD CONSTRAINT photo_user_diary_user_id_fk
+	FOREIGN KEY (user_id)
+	REFERENCES users (id);	
